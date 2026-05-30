@@ -1,0 +1,43 @@
+# Journal paper — a single-article Quarto project.
+project:
+  type: default
+  # Sync figures + bibliography in from shared-resources BEFORE rendering.
+  # Quarto runs this automatically; see _sync.R. (Verified: project pre-render
+  # scripts run with this directory as the working directory.)
+  pre-render: _sync.R
+
+# Execute code chunks with this project directory as the working directory, so
+# here() (anchored at the parent `.here`) and the synced ./figures resolve the
+# same way every render.
+execute-dir: project
+
+# Manuscript defaults: hide code (show only its output), and suppress warnings and
+# package start-up messages. The writing project is a presentation layer.
+execute:
+  echo: false
+  warning: false
+  message: false
+
+# The bibliography Quarto reads is the SYNCED-IN copy (produced by _sync.R),
+# never an ../ path. Edit references in shared-resources/references.bib only.
+bibliography: references.bib
+
+# FILL-AND-VERIFY: drop your target journal's CSL file into csl/ and uncomment.
+# Find styles at https://www.zotero.org/styles . Without this, a default style is used.
+# csl: csl/your-journal.csl
+
+format:
+  # docx is primary: most journals want a Word manuscript.
+  docx:
+    toc: false
+    number-sections: true
+    # reference-doc: custom-reference.docx   # FILL-AND-VERIFY: journal Word template
+  # pdf secondary, for your own review copy (needs a LaTeX install / tinytex).
+  pdf:
+    documentclass: article
+    geometry:
+      - margin=1in
+    fontsize: 11pt
+    number-sections: true
+    fig-pos: "H"          # keep figures where they appear in the text
+    keep-tex: false

@@ -1,0 +1,95 @@
+---
+# ============================================================================
+# FILL-AND-VERIFY front matter. Every value here is a placeholder — replace with
+# your real metadata and reconcile against your TARGET JOURNAL's author guidelines
+# (structured author/affiliation/ORCID support and any required fields vary by
+# journal; see https://quarto.org/docs/journals/ and the quarto-journals
+# extensions for journal-specific templates).
+# ============================================================================
+title: "FILL-AND-VERIFY: Paper title"
+# subtitle: "Optional subtitle"
+author:
+  - name: "FILL-AND-VERIFY: First Last"
+    orcid: "0000-0000-0000-0000"
+    email: "you@institution.edu"
+    corresponding: true
+    affiliations:
+      - name: "FILL-AND-VERIFY: Department, Institution"
+        city: "City"
+        country: "Country"
+abstract: |
+  FILL-AND-VERIFY. Write the abstract LAST (see drafting note below). Structured
+  abstract headings (Background/Methods/Results/Conclusions) are journal-specific.
+keywords: ["keyword 1", "keyword 2", "keyword 3"]
+date: today
+---
+
+<!-- SCAFFOLDING NOTE (delete this whole comment when you start writing):
+     This single file is the manuscript. The IMRaD sections below are scaffolding.
+     Recommended drafting order: Methods + Results first, then Introduction and
+     Discussion, then the Abstract last.
+     Figures are embedded from THIS project's ./figures/ (the sync step copies them
+     in from shared-resources/figures/). Statistics are pulled from the shared
+     derived/ outputs as code, never typed by hand. -->
+
+```{r}
+#| label: setup
+#| include: false
+# Read the finished statistics produced by shared-resources/scripts/02-analysis.R.
+# DATA may be read across the folder boundary by code — this is a fast read of a
+# saved result and does NOT re-run the analysis.
+#
+# We anchor on the `.here` sentinel at the research-programme root using rprojroot
+# directly, NOT here::here(): the `here` package treats this writing project's
+# _quarto.yml as a project root and would stop here instead of walking up to the
+# shared analysis folder.
+library(readr)
+root  <- rprojroot::find_root(rprojroot::has_file(".here"))
+stats <- read_csv(file.path(root, "shared-resources", "derived", "example-stats.csv"),
+                  show_col_types = FALSE)
+
+# Render-time provenance: git commit hash + date of the code that produced this
+# output (graceful fallback before the first commit). See provenance.R.
+source(file.path(root, "shared-resources", "scripts", "provenance.R"))
+prov <- provenance_stamp(root)
+```
+
+*`r prov`*
+
+# Introduction
+
+One-line guidance (deletable scaffolding): state the problem, the gap, and the
+specific aim/hypothesis. Cite prior work like this [@example2024].
+
+# Methods
+
+One-line guidance: design, setting, participants, variables, and the statistical
+approach — enough that the study could be repeated.
+
+**Reproducibility / data availability (FILL-AND-VERIFY).** State where the data and
+analysis code live and how they can be accessed. The analysis for this paper is in
+the shared `shared-resources/` engine; see the export note in the project README for
+assembling a submission supplement.
+
+# Results
+
+One-line guidance: report findings in the order the Methods set up; let figures and
+code-driven numbers carry the quantitative content.
+
+The example analysis included `r stats$n` participants. The estimated
+treatment–control difference in the biomarker was
+`r sprintf("%.2f (95%% CI %.2f to %.2f; p = %.3f)", stats$estimate, stats$conf_low, stats$conf_high, stats$p_value)`.
+
+![Example figure embedded from this project's own `figures/` directory (synced in from `shared-resources/figures/` before render).](figures/example-figure.png){#fig-example width=80%}
+
+@fig-example shows the biomarker distribution by group.
+
+# Discussion
+
+One-line guidance: interpret the main result, compare with prior work, state
+limitations, and give a measured conclusion.
+
+# References
+
+::: {#refs}
+:::
