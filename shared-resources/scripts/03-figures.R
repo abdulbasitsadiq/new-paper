@@ -11,6 +11,11 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 
+# Journal-ready defaults: colour-blind-safe palette (Okabe-Ito) and 600 dpi.
+okabe_ito <- c("#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442", "#000000")
+theme_set(theme_minimal(base_size = 11))
+FIG_DPI <- 600
+
 clean <- read_csv(here("shared-resources", "derived", "example-clean.csv"),
                   show_col_types = FALSE)
 
@@ -27,8 +32,12 @@ p <- ggplot(clean, aes(x = group, y = biomarker, fill = group)) +
 # Save both raster (for docx/HTML) and vector (for PDF). Keep figure file names
 # stable: the sync step and the documents refer to them by name.
 ggsave(here("shared-resources", "figures", "example-figure.png"),
-       p, width = 6, height = 4, dpi = 300)
+       p, width = 6, height = 4, dpi = FIG_DPI)
 ggsave(here("shared-resources", "figures", "example-figure.pdf"),
        p, width = 6, height = 4)
 
 message("03-figures.R: wrote figures/example-figure.{png,pdf}")
+
+# Provenance for the figure set: which commit produced these files.
+source(here("shared-resources", "scripts", "provenance.R"))
+writeLines(provenance_stamp(here()), here("shared-resources", "figures", "PROVENANCE.txt"))

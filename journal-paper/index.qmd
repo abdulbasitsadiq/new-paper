@@ -25,6 +25,9 @@ date: today
 ---
 
 <!-- SCAFFOLDING NOTE (delete this whole comment when you start writing):
+     The `stats` / `example-figure.png` below come from the SYNTHETIC example in
+     shared-resources/scripts/. Replace them with your real derived outputs before
+     any number reaches a draft; never leave example objects in a manuscript.
      This single file is the manuscript. The IMRaD sections below are scaffolding.
      Recommended drafting order: Methods + Results first, then Introduction and
      Discussion, then the Abstract last.

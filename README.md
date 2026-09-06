@@ -83,7 +83,8 @@ But *Quarto resources* (images, `.bib`) are **synced in, never referenced out**.
 ## 4. One-time setup
 
 ```bash
-git init                                  # if you want a repo
+git init                                  # only if this folder is a standalone repo
+                                          # (inside a programme repo such as project100, skip — the parent is the repo)
 quarto install tinytex                    # LaTeX engine for PDF (once per machine)
 
 # Restore the pinned R environment (open R at THIS folder):
@@ -95,7 +96,10 @@ quarto --version                          # confirm the toolchain
 ```
 
 > The single `renv` here covers `shared-resources/` and `journal-paper/`. **Refresh it
-> per project — never inherit a stale lockfile.** After adding packages (in `setup.R`),
+> per project — never inherit a stale lockfile.** Concretely: on a fresh copy of this
+> template run `R -q -e 'source("setup.R"); renv::init()'` (or `renv::restore()` then
+> `renv::update()` and `renv::snapshot()`); the shipped `renv.lock` is a starting point,
+> not a pin. After adding packages (in `setup.R`),
 > run `renv::snapshot()` to re-pin.
 
 ---
@@ -110,7 +114,9 @@ R -q -e 'source("shared-resources/scripts/01-clean.R");
          source("shared-resources/scripts/02-analysis.R");
          source("shared-resources/scripts/03-figures.R")'
 
-# (c) add references to the MASTER bib:  shared-resources/references.bib
+# (c) references: the MASTER bib is shared-resources/references.bib. If you use Zotero +
+#     Better BibTeX, point a keep-updated auto-export of the paper's collection at this
+#     exact path and never edit the file by hand (fix metadata in Zotero instead).
 
 # (d) write the manuscript:  journal-paper/index.qmd
 
