@@ -97,9 +97,15 @@ quarto --version                          # confirm the toolchain
 
 > The single `renv` here covers `shared-resources/` and `journal-paper/`. **Refresh it
 > per project — never inherit a stale lockfile.** Concretely: on a fresh copy of this
-> template run `R -q -e 'source("setup.R"); renv::init()'` (or `renv::restore()` then
-> `renv::update()` and `renv::snapshot()`); the shipped `renv.lock` is a starting point,
-> not a pin. After adding packages (in `setup.R`),
+> template run `R -q -e 'renv::restore(); source("setup.R"); renv::snapshot()'`
+> (restore what is pinned, install what `setup.R` lists, re-pin). For a clean slate,
+> delete `renv.lock` first and run
+> `R -q -e 'renv::init(bare = TRUE); source("setup.R"); renv::snapshot()'`.
+> Do not rely on `renv::init()` alone: on a project that already has a lockfile it only
+> activates the project and leaves the lockfile untouched (verified 2026-09-07, R 4.5.1,
+> renv 1.2.3). The shipped `renv.lock` is a starting point, not a pin. `renv::snapshot()`
+> records only packages the code uses (`library()`, `pkg::`); packages `setup.R` installs
+> but nothing calls yet are pinned when first used. After adding packages (in `setup.R`),
 > run `renv::snapshot()` to re-pin.
 
 ---
