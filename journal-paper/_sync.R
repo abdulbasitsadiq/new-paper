@@ -19,11 +19,18 @@ bib_src <- file.path(SHARED, "shared-resources", "references.bib")
 
 dir.create("figures", showWarnings = FALSE)
 
-# --- Figures this document needs (list only what you embed) ----------------
-needed_figures <- c(
-  "example-figure.png"
-  # add more filenames here as your paper embeds them, e.g. "fig-flow.png"
+# --- Figures: sync EVERY image in shared-resources/figures by default -------
+# (a hand-maintained list is forgotten at scale; exclude files by name instead)
+exclude_figures <- c(
+  # "scratch-plot.png"
 )
+needed_figures <- setdiff(
+  list.files(fig_src, pattern = "\\.(png|pdf|svg|jpe?g|tiff?)$", ignore.case = TRUE),
+  exclude_figures
+)
+if (length(needed_figures) == 0) {
+  warning("no figures found in ", fig_src, " — run shared-resources/scripts/03-figures.R first", call. = FALSE)
+}
 
 for (f in needed_figures) {
   src <- file.path(fig_src, f)

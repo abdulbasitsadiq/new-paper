@@ -20,6 +20,20 @@ pkgs <- c(
   "rmarkdown"
 )
 
+# Evidence-synthesis set (systematic reviews / meta-analyses) ---------------
+# Comment out for primary-data papers that do not pool.
+pkgs <- c(pkgs,
+  "metafor",     # meta-analysis engine (escalc, rma, forest, funnel, regtest)
+  "meta",        # metaprop/metabin cross-check; tidy summaries
+  "robvis",      # risk-of-bias traffic-light and summary plots
+  "PRISMA2020",  # PRISMA 2020 flow diagram
+  "flextable",   # docx-ready tables
+  "officer",     # docx assembly
+  "janitor",     # cleaning helpers
+  "readxl",      # Excel extraction sheets
+  "gtsummary"    # descriptive tables for primary studies
+)
+
 # --- ADD PER-PROJECT PACKAGES HERE -----------------------------------------
 # e.g. survival analysis, mixed models, specific table/figure helpers:
 # pkgs <- c(pkgs, "survival", "lme4", "gtsummary")
