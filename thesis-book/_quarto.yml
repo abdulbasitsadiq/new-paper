@@ -1,0 +1,65 @@
+# Thesis — a multi-file Quarto BOOK project.
+# It is a book (not a single document) specifically so chapters can cross-
+# reference each other; the Results chapter demonstrates a working @sec- link.
+project:
+  type: book
+  # Sync figures + bibliography in from shared-resources BEFORE rendering.
+  pre-render: _sync.R
+
+# Execute chunks with the project dir as working directory so here() (anchored
+# at the parent `.here`) and the synced ./figures resolve consistently.
+execute-dir: project
+
+# Hide code (show only its output) and suppress warnings/startup messages — the
+# thesis is a presentation layer over the shared analysis.
+execute:
+  echo: false
+  warning: false
+  message: false
+
+book:
+  title: "FILL-AND-VERIFY: Thesis title"
+  author: "FILL-AND-VERIFY: Your Name"
+  date: today
+  chapters:
+    - index.qmd                      # title page + preface (unnumbered)
+    - frontmatter/declaration.qmd
+    - frontmatter/acknowledgements.qmd
+    - frontmatter/abstract.qmd
+    - chapters/01-introduction.qmd
+    - chapters/02-background.qmd
+    - chapters/03-methods.qmd
+    - chapters/04-results.qmd
+    - chapters/05-discussion.qmd
+    - chapters/06-conclusion.qmd
+  appendices:
+    - appendices/A-supplementary.qmd
+
+# Synced-in copy (produced by _sync.R), never an ../ path.
+bibliography: references.bib
+# FILL-AND-VERIFY: drop a CSL into csl/ and uncomment for a specific style.
+# csl: csl/your-style.csl
+
+# number-sections is required for @sec- cross-references to resolve to a number.
+number-sections: true
+
+format:
+  # PDF is primary for a thesis (print/submission). Needs a LaTeX install / tinytex.
+  pdf:
+    documentclass: scrreprt
+    fontsize: 11pt
+    fig-pos: "H"            # keep figures where they appear in the text
+    geometry:
+      - margin=1in          # FILL-AND-VERIFY: reconcile margins with your institution handbook
+    toc: true
+    toc-depth: 2
+    # ===================================================================
+    # FILL-AND-VERIFY (THESIS): title page, declaration, margins, line spacing,
+    # word count, and ordering of front matter are INSTITUTION-SPECIFIC. Reconcile
+    # every one against your official thesis handbook BEFORE submission. Quarto
+    # defaults here are generic and almost certainly not submission-compliant.
+    # ===================================================================
+  # docx secondary (e.g. for supervisor comments / track changes).
+  docx:
+    toc: true
+    number-sections: true

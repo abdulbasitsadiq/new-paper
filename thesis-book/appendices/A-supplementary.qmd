@@ -1,0 +1,4 @@
+# Supplementary material {#sec-appendix-a}
+
+FILL-AND-VERIFY. Supplementary tables, extended methods, or additional figures.
+Appendices are listed under `book: appendices:` in `_quarto.yml`.

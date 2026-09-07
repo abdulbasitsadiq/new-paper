@@ -1,0 +1,5 @@
+# Abstract {.unnumbered}
+
+FILL-AND-VERIFY. The thesis abstract (often a word limit applies — check the
+handbook). This is the thesis's own abstract; it is distinct from the journal
+paper's abstract even though both describe the same work.

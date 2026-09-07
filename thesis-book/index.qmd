@@ -1,0 +1,26 @@
+# Preface {.unnumbered}
+
+```{r}
+#| label: provenance
+#| include: false
+# Render-time provenance: git commit hash + date of the code state that produced
+# this PDF (graceful fallback before the first commit). See provenance.R.
+root <- rprojroot::find_root(rprojroot::has_file(".here"))
+source(file.path(root, "shared-resources", "scripts", "provenance.R"))
+prov <- provenance_stamp(root)
+```
+
+*`r prov`*
+
+FILL-AND-VERIFY. This is the thesis preface / landing page. Replace with a short
+orientation, or use it as the title page if your institution's format permits.
+
+> **Institution compliance (read me).** The title page, declaration,
+> acknowledgements, abstract, margins, line spacing, page numbering, and word
+> count are all **institution-specific**. Reconcile every detail against your
+> official thesis handbook **before submission** — the Quarto defaults in
+> `_quarto.yml` are generic placeholders, not a compliant thesis layout.
+
+This thesis and its companion journal paper are built from one shared analysis
+engine (`../shared-resources/`): the figures and statistics are produced once and
+embedded here, so the numbers in this thesis match the paper exactly.

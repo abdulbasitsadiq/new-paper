@@ -1,13 +1,15 @@
-# new-paper — a standalone journal paper from a shared analysis
+# new-paper — a journal paper, and optionally a thesis, from one shared analysis
 
-A reusable template for a **single journal article**. The slow work (cleaning data,
-running statistics, drawing figures) happens **once** in a plain folder called
-`shared-resources/`; the paper is a thin layer that **embeds the finished outputs**.
+A reusable template for a **journal article**, with an **optional thesis module**. The slow
+work (cleaning data, running statistics, drawing figures) happens **once** in a plain folder
+called `shared-resources/`; the paper — and the thesis, if you keep it — are thin layers
+that **embed the finished outputs**.
 
-> **Which template should I use?**
-> - **Use `new-paper`** (this one) for a **standalone journal article**.
-> - **Use `new-full-research`** when one body of work will become **both** a thesis/
->   dissertation **and** a paper. (This template can grow into that — see *Migration*.)
+> **One template.** `journal-paper/` is always present. `thesis-book/` (a multi-chapter
+> Quarto book) is an **optional module**: keep it when the work will also become a thesis or
+> dissertation; delete the folder for a standalone article (see §7). Both embed the same
+> `shared-resources/` outputs, so a figure or number is identical in paper and thesis.
+> (`new-full-research` was this template plus the book; it is archived — use this one.)
 
 ---
 
@@ -39,13 +41,23 @@ new-paper/
 │   ├── scripts/           ← 01-clean.R → 02-analysis.R → 03-figures.R (TRACKED)
 │   └── figures/           ← generated plots, the producer/source location (GITIGNORED, regenerated)
 │
-└── journal-paper/         ← PAPER — a single article (renders to docx + PDF)
-    ├── _quarto.yml        ← type: default; pre-render: _sync.R; docx primary
-    ├── _sync.R            ← copies figures + references.bib in from shared-resources
-    ├── index.qmd          ← IMRaD manuscript in one file
-    ├── figures/           ← SYNCED-IN copies Quarto embeds (GITIGNORED, regenerated)
-    ├── references.bib     ← SYNCED-IN copy Quarto reads (GITIGNORED — edit the master, not this)
-    └── csl/               ← drop your journal's CSL here (FILL-AND-VERIFY)
+├── journal-paper/         ← PAPER — a single article (renders to docx + PDF)
+│   ├── _quarto.yml        ← type: default; pre-render: _sync.R; docx primary
+│   ├── _sync.R            ← copies every figure + references.bib in from shared-resources
+│   ├── index.qmd          ← IMRaD manuscript in one file
+│   ├── figures/           ← SYNCED-IN copies Quarto embeds (GITIGNORED, regenerated)
+│   ├── references.bib     ← SYNCED-IN copy Quarto reads (GITIGNORED — edit the master, not this)
+│   └── csl/               ← drop your journal's CSL here (FILL-AND-VERIFY)
+│
+└── thesis-book/           ← THESIS — OPTIONAL MODULE: a multi-file Quarto BOOK (PDF + docx); delete if no thesis
+    ├── _quarto.yml        ← type: book; pre-render: _sync.R; PDF primary
+    ├── _sync.R            ← same sync as the paper's (every figure + references.bib)
+    ├── index.qmd          ← preface / title page
+    ├── frontmatter/       ← declaration, acknowledgements, abstract (unnumbered)
+    ├── chapters/          ← 01-introduction … 06-conclusion (cross-chapter @sec- refs work)
+    ├── appendices/        ← A-supplementary
+    ├── figures/  references.bib  ← SYNCED-IN copies (GITIGNORED, regenerated)
+    └── csl/               ← drop your citation style here (FILL-AND-VERIFY)
 ```
 
 ---
@@ -54,8 +66,8 @@ new-paper/
 
 Analysis **writes** outputs into `shared-resources/{figures,derived}` and the master
 `shared-resources/references.bib`. A **sync** step copies the **figures** and the
-**`.bib`** *into* the paper right before it renders. The paper **never reaches across
-the folder** for images or the bibliography.
+**`.bib`** *into* each writing project right before it renders. The writing projects
+**never reach across the folder** for images or the bibliography.
 
 ```
                 shared-resources/                         journal-paper/
@@ -95,7 +107,7 @@ R -q -e 'source("setup.R"); renv::init()'
 quarto --version                          # confirm the toolchain
 ```
 
-> The single `renv` here covers `shared-resources/` and `journal-paper/`. **Refresh it
+> The single `renv` here covers `shared-resources/`, `journal-paper/` and `thesis-book/`. **Refresh it
 > per project — never inherit a stale lockfile.** Concretely: on a fresh copy of this
 > template run `R -q -e 'renv::restore(); source("setup.R"); renv::snapshot()'`
 > (restore what is pinned, install what `setup.R` lists, re-pin). For a clean slate,
@@ -124,10 +136,11 @@ R -q -e 'source("shared-resources/scripts/01-clean.R");
 #     Better BibTeX, point a keep-updated auto-export of the paper's collection at this
 #     exact path and never edit the file by hand (fix metadata in Zotero instead).
 
-# (d) write the manuscript:  journal-paper/index.qmd
+# (d) write the manuscript:  journal-paper/index.qmd   (and, if kept, thesis-book/chapters/*.qmd)
 
-# (e) render — the pre-render sync pulls figures + bib in automatically:
+# (e) render — each project's pre-render sync pulls figures + bib in automatically:
 quarto render journal-paper      # → journal-paper/index.docx + index.pdf
+quarto render thesis-book        # → thesis-book/_book/ (PDF + docx) — only if you kept the module
 ```
 
 You only repeat step (b) when the data or analysis changes. Rendering (step e) is fast
@@ -147,15 +160,25 @@ the real source:
   uncomment the `csl:` line in `journal-paper/_quarto.yml`. Styles:
   <https://www.zotero.org/styles>.
 - **Word manuscript template** → set `reference-doc:` in `journal-paper/_quarto.yml`.
+- **THESIS layout** (if kept) → `thesis-book/_quarto.yml`, `index.qmd`, `frontmatter/`. The
+  **title page, declaration wording, margins, line spacing, page numbering and word count are
+  institution-specific — reconcile every one against your official thesis handbook BEFORE
+  submission**; the defaults are generic, not compliant. Drop the thesis CSL into `thesis-book/csl/`.
 
 ---
 
-## 7. Migration: this paper can become a thesis later
+## 7. The thesis module: keep it or delete it
 
-The analysis folder is called `shared-resources/` on purpose. If this work later grows
-into a thesis, you can drop a `thesis-book/` Quarto book **next to** `shared-resources/`
-with **zero path changes** to any script or sync — the analysis engine is already
-shared. (That grown-up layout is the `new-full-research` template.)
+`thesis-book/` ships in every copy of this template so that a paper and a thesis can be
+built from **one** `shared-resources/` engine with **zero path changes** — the book's
+`_sync.R` already expects `../shared-resources/`, and the Results chapter shows the working
+cross-chapter reference (`@sec-aims`) that is the reason it is a *book* rather than a single
+document.
+
+- **Paper only:** delete the `thesis-book/` folder (the `.gitignore` lines for it are harmless).
+- **Thesis later:** copy `thesis-book/` back from this template; nothing else changes.
+- **Both:** write `journal-paper/index.qmd` and `thesis-book/chapters/*.qmd` against the same
+  `derived/` and `figures/`; every figure is one file, identical in both documents.
 
 ---
 
@@ -181,7 +204,7 @@ so a DOI'd, archived release is what makes the supplement durable and citable.
 
 ## 9. Reproducibility notes
 
-**Provenance stamp.** Every rendered output (the paper's docx and pdf) prints, near its
+**Provenance stamp.** Every rendered output (the paper's docx and pdf, the thesis PDF) prints, near its
 title, the git commit hash and date of the code that produced it — e.g. *Generated from
 commit a8bb0d4 on 2026-05-29*. Before you run `git init` and make the first commit it
 reads *uncommitted (not a git repo yet)* and resolves to a real hash automatically once
@@ -214,4 +237,4 @@ path; Docker is deliberately **not** part of these templates.
 | **"resource not found" / figure missing** | The sync didn't run or the figure isn't generated. Run `shared-resources/scripts/03-figures.R`, then re-render (pre-render `_sync.R` runs automatically; or run `Rscript _sync.R` in `journal-paper/`). |
 | **Citations show as `[@key?]` / not resolving** | The `.bib` didn't sync, or the key is wrong/missing. Check the key exists in `shared-resources/references.bib`, then re-render. |
 | **Render is slow / re-runs the analysis** | An analysis code chunk is living in `index.qmd` instead of in `shared-resources/scripts/`. Move heavy computation to the scripts; the manuscript should only *read* finished `derived/` outputs. |
-| **`here()` points to the wrong place** | The `.here` sentinel at this folder defines the root. Don't delete it; don't add stray `.here`/`.Rproj`/`.git` markers inside `journal-paper/`. |
+| **`here()` points to the wrong place** | The `.here` sentinel at this folder defines the root. Don't delete it; don't add stray `.here`/`.Rproj`/`.git` markers inside the writing projects. |

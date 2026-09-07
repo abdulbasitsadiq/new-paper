@@ -1,0 +1,4 @@
+# Background {#sec-background}
+
+FILL-AND-VERIFY. Literature review / theoretical background. Delete this scaffolding
+as you write.

@@ -23,6 +23,9 @@ thesis-book/_book/
 journal-paper/figures/*
 !journal-paper/figures/.gitkeep
 journal-paper/references.bib
+thesis-book/figures/*
+!thesis-book/figures/.gitkeep
+thesis-book/references.bib
 
 # --- RENDER OUTPUTS ----------------------------------------------------------
 journal-paper/*.pdf

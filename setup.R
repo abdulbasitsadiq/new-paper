@@ -16,6 +16,7 @@ pkgs <- c(
   "tidyverse",  # dplyr/readr/ggplot2/... — data wrangling + figures
   "broom",      # tidy model output for code-driven numbers
   "gt",         # publication-quality tables
+  "ragg",       # PNG device that writes dpi metadata (ggsave uses it automatically; grDevices::png() on macOS writes none)
   "knitr",      # rendering engine used by Quarto
   "rmarkdown"
 )
