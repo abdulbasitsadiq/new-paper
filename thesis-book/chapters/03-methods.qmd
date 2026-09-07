@@ -1,0 +1,5 @@
+# Methods {#sec-methods}
+
+FILL-AND-VERIFY. Design, data, and statistical methods. The analysis itself lives
+in `../shared-resources/scripts/` and is run once, outside this book; this chapter
+*describes* it and the book *embeds* its outputs.

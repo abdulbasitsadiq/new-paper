@@ -1,0 +1,5 @@
+# Discussion {#sec-discussion}
+
+FILL-AND-VERIFY. Interpret the findings reported in @sec-results, relate them to the
+background in @sec-background, and state limitations. (These are further working
+cross-chapter references.)

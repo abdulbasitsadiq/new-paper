@@ -1,0 +1,28 @@
+# Results {#sec-results}
+
+```{r}
+#| label: setup
+#| include: false
+# Read finished statistics across the boundary (fast read of a saved result;
+# this does NOT re-run the analysis).
+#
+# Anchor on the `.here` sentinel at the research-programme root via rprojroot,
+# NOT here::here(): `here` treats this book's _quarto.yml as a project root and
+# would stop here instead of walking up to the shared analysis folder.
+library(readr)
+root  <- rprojroot::find_root(rprojroot::has_file(".here"))
+stats <- read_csv(file.path(root, "shared-resources", "derived", "example-stats.csv"),
+                  show_col_types = FALSE)
+```
+
+Addressing the aims set out in @sec-aims, the example analysis included
+`r stats$n` participants. The estimated treatment–control difference in the
+biomarker was
+`r sprintf("%.2f (95%% CI %.2f to %.2f; p = %.3f)", stats$estimate, stats$conf_low, stats$conf_high, stats$p_value)`.
+
+![Biomarker by group — the same figure file the journal paper embeds, synced in from `shared-resources/figures/`.](/figures/example-figure.png){#fig-thesis-example width=85%}
+
+@fig-thesis-example shows the distribution.
+
+> The cross-reference to @sec-aims above lives in a **different chapter** from its
+> target — this is the working cross-chapter reference that justifies using a book.

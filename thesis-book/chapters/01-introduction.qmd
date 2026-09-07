@@ -1,0 +1,11 @@
+# Introduction {#sec-introduction}
+
+FILL-AND-VERIFY. Set up the problem and the rationale for the thesis. Cite prior
+work like this [@example2024].
+
+## Aims and objectives {#sec-aims}
+
+State the aims and objectives here. This section carries the label `{#sec-aims}`
+so that a *later* chapter can cross-reference it — see how the Results chapter
+points back to it. (That cross-chapter link is the reason this writing project is
+a Quarto **book** rather than a single document.)

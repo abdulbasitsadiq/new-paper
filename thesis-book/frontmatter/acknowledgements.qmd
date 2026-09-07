@@ -1,0 +1,4 @@
+# Acknowledgements {.unnumbered}
+
+FILL-AND-VERIFY. Acknowledge supervisors, funders (with grant numbers if required),
+collaborators, and data providers.
